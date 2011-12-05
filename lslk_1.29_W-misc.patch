@@ -1,0 +1,9 @@
+--- lslk/lslk_1.28/dialects/linux/proc/dlock.c.orig	Wed Dec 19 16:47:55 2001
++++ lslk/lslk_1.28/dialects/linux/proc/dlock.c	Wed Dec 19 16:48:35 2001
+@@ -339,4 +339,6 @@
+  * Set the lock source to local; Linux doesn't support remote locking.
+  */
+ 	Lp->src = 0;
++
++	return(1);
+ }

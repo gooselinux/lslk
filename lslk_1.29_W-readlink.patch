@@ -1,0 +1,21 @@
+--- lslk/lslk_1.29/dialects/linux/proc/dlock.c.readlink	1999-11-10 21:02:41.000000000 +0100
++++ lslk/lslk_1.29/dialects/linux/proc/dlock.c	2004-09-10 14:07:22.930823312 +0200
+@@ -204,10 +204,14 @@
+ 	 */
+ 	    if (!PPath || Lp->path)
+ 		break;
+-	    if ((len = readlink(buf, path, sizeof(path))) < 1)
+-		break;
+-	    if (!(Lp->path = (char *)malloc(len + 1)))
+-		break;
++	    if ((len = readlink(buf, path, MAXPATHLEN-1)) < 1) {
++		fprintf(stderr,"Error resolving symlink %s.\n",buf);
++		Exit(1);
++	    }
++	    if (!(Lp->path = (char *)malloc(len + 1))) {
++		fprintf(stderr,"Error allocating memory.\n");
++		Exit(1);
++	    }
+ 	    (void) strncpy(Lp->path, path, len);
+ 	    Lp->path[len] = '\0';
+ 	    break;
